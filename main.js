@@ -50,8 +50,72 @@ function crearCarta(pokemon) {
     containerTipos.appendChild(listaTipos)
 
     //Apartado de estadisticas
-    const prueba = document.createElement('div');
-    prueba.classList.add('prueba')
+    const containerStats = document.createElement('div');
+    containerStats.classList.add('container-stats');
+
+    const grafica = document.createElement('canvas');
+    grafica.classList.add('grafica')
+    containerStats.appendChild(grafica);
+
+    const ctx = grafica;
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: pokemon.stats.map((nombre) => { return nombre.stat.name }),
+            datasets: [{
+                label: 'Estadisticas Base ' + pokemon.name,
+                data: pokemon.stats.map((stat_base) => {
+                    return stat_base.base_stat
+                }),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'y', // Cambia el enfoque al eje x
+            legend: {
+                display: false // Oculta la leyenda
+            },
+            scales: {
+                x: {
+                    beginAtZero: true, // Ajusta el inicio del eje x a cero
+                    max: 120,
+                    grid: {
+                        display: false // Oculta las líneas de la cuadrícula en el eje X
+                    }
+                },
+            },
+            plugins: {
+                legend: {
+                    display: true, // Muestra la leyenda
+                    labels: {
+                        usePointStyle: true, // Utiliza el estilo de punto en lugar de una barra
+                        boxWidth: 0 // Establece el ancho de la barra en cero
+                    }
+                }
+            }
+        }
+
+    });
 
     //Flip Carta
     const inner = document.createElement('div');
@@ -69,7 +133,7 @@ function crearCarta(pokemon) {
     cartaFront.appendChild(containerInfo)
     cartaFront.appendChild(containerSprite)
     cartaFront.appendChild(containerTipos)
-    cartaBack.appendChild(prueba)
+    cartaBack.appendChild(containerStats)
 
     carta.appendChild(inner);
     pokedex.appendChild(carta);
@@ -77,16 +141,21 @@ function crearCarta(pokemon) {
 }
 
 async function buscarPokemon(id) {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + id );
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + id);
     return await response.json();
 }
+
 let promises = [];
-for (let n = 1; n <= 12; n++) {
+for (let n = 1; n <= 9; n++) {
     promises.push(buscarPokemon(n))
 }
-Promise.all(promises).then(function(pokemons) {
-    pokemons.forEach( e => crearCarta(e));
+
+Promise.all(promises).then(function (pokemons) {
+    pokemons.forEach(e => crearCarta(e));
+    console.log(pokemons)
 });
+
+
 
 
 function formatID(number) {
