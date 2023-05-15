@@ -3,7 +3,10 @@
     padding: 0;
 }
 
-body {}
+body {
+    background-image: url(./Images/fondo_pokeballs.jpg);
+    color: white;
+}
 
 
 header {
@@ -64,7 +67,7 @@ button[type="submit"] {
 .box:hover {
     background-color: #e4d9d9;
     box-shadow: 2px 2px 4px black,
-}*/
+} */
 
 .pokedex {
     display: flex;
@@ -73,18 +76,53 @@ button[type="submit"] {
 }
 
 .cartaPokemon {
-    width: 25%;
-    background-color: #fff;
-    border: 5px solid black;
-    border-radius: 50px;
+    width: 350px;
+    height: 300px;
     margin: 15px;
     cursor: pointer;
-    /* background-image: url(./Images/fondoCarta2.jpg); */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-color: transparent;
+    perspective: 1000px;
 
 }
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.cartaPokemon:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.front,
+.back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.front {
+    background-image: url(./Images/fondoCarta8.jpg);
+    background-position: bottom center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 5px solid black;
+    color: white;
+}
+
+.back {
+    background-color: #1c9df3;
+    color: white;
+    transform: rotateY(180deg);
+    border: 5px solid black;
+}
+
 
 .container-info {
     display: flex;
@@ -95,7 +133,7 @@ button[type="submit"] {
 }
 
 .container-info p {
-    font-weight: bold;
+    font-weight:bolder;
     font-size: 20px;
 }
 
@@ -130,9 +168,11 @@ button[type="submit"] {
 .listaTipos li {
     display: inline-block;
     margin: 0 20px;
-
+    color: white;
     border: 1px solid black;
     border-radius: 15px;
     padding: 10px;
     margin-bottom: 5px;
+
+    text-transform: uppercase;
 }

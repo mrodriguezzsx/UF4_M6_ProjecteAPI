@@ -41,18 +41,37 @@ function crearCarta(pokemon) {
 
     for (let n = 0; n < pokemon.types.length; n++) {
         const tipoElemento = document.createElement("li");
-        const tipos = document.createTextNode(pokemon.types[n].type.name)
+        const tipos = document.createTextNode(pokemon.types[n].type.name);
+        tipoElemento.style.backgroundColor = getColorTipoPokemon(pokemon.types[n].type.name);
         tipoElemento.appendChild(tipos);
         listaTipos.appendChild(tipoElemento);
     }
 
     containerTipos.appendChild(listaTipos)
 
+    //Apartado de estadisticas
+    const prueba = document.createElement('div');
+    prueba.classList.add('prueba')
+
+    //Flip Carta
+    const inner = document.createElement('div');
+    inner.classList.add('card-inner')
+
+    const cartaFront = document.createElement('div');
+    cartaFront.classList.add('front');
+    inner.appendChild(cartaFront);
+
+    const cartaBack = document.createElement('div');
+    cartaBack.classList.add('back')
+    inner.appendChild(cartaBack);
+
     //Creacions
-    carta.appendChild(containerInfo)
-    carta.appendChild(containerSprite)
-    carta.appendChild(containerTipos)
-    
+    cartaFront.appendChild(containerInfo)
+    cartaFront.appendChild(containerSprite)
+    cartaFront.appendChild(containerTipos)
+    cartaBack.appendChild(prueba)
+
+    carta.appendChild(inner);
     pokedex.appendChild(carta);
 
 }
@@ -62,7 +81,7 @@ async function buscarPokemon(id) {
     return await response.json();
 }
 let promises = [];
-for (let n = 1; n <= 151; n++) {
+for (let n = 1; n <= 12; n++) {
     promises.push(buscarPokemon(n))
 }
 Promise.all(promises).then(function(pokemons) {
@@ -76,5 +95,32 @@ function formatID(number) {
     } else if (number < 100) {
         return "#0";
     } return "#";
+}
+
+// Colores para los Types de cada pokemon
+const pokemonTypes = [
+    { name: "normal", color: "#A8A878" },
+    { name: "fire", color: "#F08030" },
+    { name: "fighting", color: "#C03028" },
+    { name: "water", color: "#6890F0" },
+    { name: "flying", color: "#A890F0" },
+    { name: "grass", color: "#78C850" },
+    { name: "poison", color: "#A040A0" },
+    { name: "electric", color: "#F8D030" },
+    { name: "ground", color: "#E0C068" },
+    { name: "psychic", color: "#F85888" },
+    { name: "rock", color: "#B8A038" },
+    { name: "ice", color: "#98D8D8" },
+    { name: "bug", color: "#A8B820" },
+    { name: "dragon", color: "#7038F8" },
+    { name: "ghost", color: "#705898" },
+    { name: "dark", color: "#705848" },
+    { name: "steel", color: "#B8B8D0" },
+    { name: "fairy", color: "#EE99AC" },
+];
+
+function getColorTipoPokemon(nombreTipo) {
+    const tipoEncontrado = pokemonTypes.find(tipo => tipo.name === nombreTipo);
+    return tipoEncontrado ? tipoEncontrado.color : "white";
 }
 
