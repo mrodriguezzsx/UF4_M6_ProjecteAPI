@@ -98,7 +98,7 @@ function crearCarta(pokemon) {
             scales: {
                 x: {
                     beginAtZero: true, // Ajusta el inicio del eje x a cero
-                    max: 120,
+                    max: 150,
                     grid: {
                         display: false // Oculta las líneas de la cuadrícula en el eje X
                     }
@@ -146,7 +146,7 @@ async function buscarPokemon(id) {
 }
 
 let promises = [];
-for (let n = 1; n <= 9; n++) {
+for (let n = 1; n <= 1010; n++) {
     promises.push(buscarPokemon(n))
 }
 
@@ -154,9 +154,6 @@ Promise.all(promises).then(function (pokemons) {
     pokemons.forEach(e => crearCarta(e));
     console.log(pokemons)
 });
-
-
-
 
 function formatID(number) {
     if (number < 10) {

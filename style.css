@@ -126,6 +126,7 @@ button[type="submit"] {
 .container-stats {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
     width: 100%;
     height: 100%;
 }
